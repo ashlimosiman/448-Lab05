@@ -1,0 +1,54 @@
+<!--
+    Author: Ashli Mosiman
+    Date Last Updated: Oct 21, 2016
+    File Name: DeletePost.html
+    Description: allows the user to delete any current posts
+
+-->
+<!doctype HTML>
+
+<html>
+<head>
+  <title>Delete Posts</title>
+</head>
+<body>
+  <h1>Users and posts in the database</h1>
+  <form action="DeletePost.php" method="post">
+
+  <?php
+
+  $mysqli = new mysqli("mysql.eecs.ku.edu", "amosiman", "Password123!", "amosiman");
+
+  if ($mysqli->connect_error)
+  {
+      die("Connection failed: ".$mysqli->connect_error);
+      exit();
+  }
+
+  $query="SELECT * FROM Posts";
+
+  if ($mysqli->query($query))
+  {
+    $queryresults=$mysqli->query($query);
+  }
+  else
+  {
+      echo 'Error: ' . $query . '<br>' . $mysqli->error;
+  }
+
+  echo '<table><tr><th>Author</th><th>Post</th><th>Delete?</th>';
+  while ($row=$queryresults->fetch_assoc())
+  {
+    echo "<tr><td>" .$row['author_id']."</td><td>".$row['content']."</td><td><input type=checkbox name=delete[] value=".$row['post_id']. "></td></tr>";
+  }
+  echo '</table>';
+
+  echo "<br><a href=\"AdminHome.html\">Home</a><br /><br   />";
+  ?>
+
+  <br><br>
+  <input type="submit" value="Press to delete posts from database">
+</form>
+
+</body>
+</html>

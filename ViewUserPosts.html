@@ -1,0 +1,55 @@
+<!--
+    Author: Ashli Mosiman
+    Date Last Updated: Oct 21, 2016
+    File Name: ViewUserPosts.html
+    Description: allows the user to see all current posts
+
+-->
+<!doctype HTML>
+
+<html>
+    <head>
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         <title>User's Posts</title>
+    </head>
+    <body>
+        <form action="ViewUserPosts.php" method="post">
+
+            <p>Select user:</p>
+
+            <select id="owner" name="owner">
+
+            <?php
+
+            $mysqli = new mysqli("mysql.eecs.ku.edu", "amosiman", "Password123!", "amosiman");
+
+            /* check connection */
+            if ($mysqli->connect_errno) {
+                printf("Connect failed: %s\n", $mysqli->connect_error);
+                exit();
+            }
+
+            $query = "SELECT user_id FROM Users";
+
+            if($result = $mysqli->query($query))
+            {
+                while ($row = $result->fetch_array()) {
+                    $userID = $row['user_id'];
+                    echo "<option value='$userID' name='$userID'>" . $row['user_id'] . "</option>";
+                }
+            }
+
+            $mysqli->close();
+            ?>
+
+            </select>
+
+            <input type="submit">
+
+        </form>
+
+
+        <a href="AdminHome.html">Home</a><br /><br   />
+    </body>
+
+</html>
